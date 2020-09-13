@@ -23,6 +23,7 @@ import (
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
+	"github.com/treethought/jot/pkg/ui"
 )
 
 var cfgFile string
@@ -33,7 +34,15 @@ var rootCmd = &cobra.Command{
 	Short: "A simple, extensible note taking app",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		u, err := ui.NewUI()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
+		u.Start()
+
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
