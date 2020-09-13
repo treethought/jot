@@ -2,6 +2,7 @@ package ui
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/gdamore/tcell"
@@ -68,7 +69,8 @@ func (l *NoteList) HandleInput(event *tcell.EventKey) *tcell.EventKey {
 	if !ok {
 		return nil
 	}
-	w.Clear().SetText(note.Content)
+	text := fmt.Sprintf("%s\n\n%s", note.Name, note.Content)
+	w.Clear().SetText(text)
 	return nil
 }
 

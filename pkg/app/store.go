@@ -53,6 +53,8 @@ func (s *FileStore) Read(id string) (note *Note, err error) {
 	for scanner.Scan() {
 		if i == 0 {
 			name = scanner.Text()
+			i += 1
+			continue
 		}
 
 		content += scanner.Text()
@@ -70,7 +72,7 @@ func (s *FileStore) Read(id string) (note *Note, err error) {
 func (s *FileStore) Write(note *Note) (err error) {
 	path := fmt.Sprintf("%s/%s", s.Dir, note.ID)
 
-	fileContent := fmt.Sprintf("%s\n%s", note.Name, note.Content)
+	fileContent := fmt.Sprintf("%s\n\n%s", note.Name, note.Content)
 	data := []byte(fileContent)
 
 	err = ioutil.WriteFile(path, data, 0644)
