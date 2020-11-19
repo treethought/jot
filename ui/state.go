@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/treethought/jot/pkg/app"
+	"github.com/treethought/jot/app"
 )
 
 type State struct {

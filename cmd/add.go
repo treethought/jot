@@ -23,7 +23,7 @@ import (
 
 	"github.com/peterh/liner"
 	"github.com/spf13/cobra"
-	"github.com/treethought/jot/pkg/app"
+	"github.com/treethought/jot/app"
 )
 
 var content string

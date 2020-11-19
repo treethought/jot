@@ -23,7 +23,7 @@ import (
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
-	"github.com/treethought/jot/pkg/ui"
+	"github.com/treethought/jot/ui"
 )
 
 var cfgFile string

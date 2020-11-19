@@ -3,7 +3,7 @@ package ui
 import (
 	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
-	"github.com/treethought/jot/pkg/app"
+	"github.com/treethought/jot/app"
 )
 
 type UI struct {
