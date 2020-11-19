@@ -5,7 +5,6 @@ import (
 )
 
 type State struct {
-	// sync.Mutex
 	currentWidget WidgetRenderer
 	currentNote   *app.Note
 }
@@ -22,9 +21,7 @@ func NewState() *State {
 }
 
 func (s State) SetCurrentNote(note *app.Note) {
-	// s.Unlock()
 	s.currentNote = note
-	// s.Lock()
 }
 
 func (s State) CurrentNote() (note *app.Note) {

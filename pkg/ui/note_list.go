@@ -27,7 +27,6 @@ func NewNoteList(ui *UI, notes []*app.Note) *NoteList {
 	w.view.SetTitle("Notes").
 		SetInputCapture(w.HandleInput)
 	// .SetMouseCapture(w.H
-	// w.view.SetInputCapture()
 
 	return w
 }

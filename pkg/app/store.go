@@ -40,8 +40,6 @@ func (s *FileStore) Read(id string) (note *Note, err error) {
 
 	defer file.Close()
 
-	// info, _ := file.Stat()
-
 	scanner := bufio.NewScanner(file)
 
 	// name is the first line of the file
@@ -79,8 +77,6 @@ func (s *FileStore) Write(note *Note) (err error) {
 	if err != nil {
 		return
 	}
-
-	// fmt.Println("Wrote note %s" + note.ID)
 
 	return
 }

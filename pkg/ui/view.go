@@ -29,9 +29,6 @@ func NewNoteView(ui *UI) *NoteView {
 	})
 	w.view.Highlight("0").ScrollToHighlight()
 
-	// regions := w.view.GetRegionText(regionID string)
-	w.view.SetBackgroundColor(tcell.ColorDarkCyan)
-
 	w.note = ui.state.CurrentNote()
 
 	return w
@@ -40,18 +37,16 @@ func NewNoteView(ui *UI) *NoteView {
 func (w *NoteView) Render(grid *tview.Grid) (err error) {
 	w.view.Clear().SetText(w.note.Name)
 	grid.AddItem(w.view, 1, 1, 2, 2, 0, 0, false)
-	// w.view.ScrollToBeginning()
 	return nil
 }
 
 func (w *NoteView) HandleInput(event *tcell.EventKey) *tcell.EventKey {
-	// if event.Key() == tcell.
 	key := event.Key()
 	switch key {
 
 	case tcell.KeyRune:
 		switch event.Rune() {
-		case 'e': // Home.
+		case 'e': // edit.
 			w.ui.app.Suspend(func() {
 				path := fmt.Sprintf("notetest/%s", w.ui.state.CurrentNote())
 				cmd := exec.Command("vim", path)

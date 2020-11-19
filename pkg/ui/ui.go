@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
 	"github.com/treethought/jot/pkg/app"
 )
@@ -65,31 +66,18 @@ func (ui *UI) initGrid() error {
 			SetTextAlign(tview.AlignCenter).
 			SetText(text)
 	}
-	// menu := newPrimitive("Menu")
-	// main := newPrimitive("Main content")
-
-	// sideBar := newPrimitive("Side Bar")
 
 	grid := tview.NewGrid().
 		SetRows(3, 0, 3).
 		SetColumns(30, 0, 30).
 		SetBorders(true).
-		AddItem(newPrimitive("Header"), 0, 0, 1, 3, 0, 0, false).
-		AddItem(newPrimitive("Footer"), 2, 0, 1, 3, 0, 0, false)
+		AddItem(newPrimitive("jot"), 0, 0, 1, 3, 0, 0, false)
 
+	grid.SetBackgroundColor(tcell.ColorDefault)
 	ui.app.SetRoot(grid, true)
 	for _, w := range ui.Widgets {
 		w.Render(grid)
 	}
-	// // Layout for screens narrower than 100 cells (menu and side bar are hidden).
-	// grid.AddItem(menu, 0, 0, 0, 0, 0, 0, false).
-	// 	AddItem(main, 1, 0, 1, 3, 0, 0, false).
-	// 	AddItem(sideBar, 0, 0, 0, 0, 0, 0, false)
-
-	// // Layout for screens wider than 100 cells.
-	// grid.AddItem(menu, 1, 0, 1, 1, 0, 100, false).
-	// 	AddItem(main, 1, 1, 1, 1, 0, 100, false).
-	// 	AddItem(sideBar, 1, 2, 1, 1, 0, 100, false)
 
 	return nil
 
