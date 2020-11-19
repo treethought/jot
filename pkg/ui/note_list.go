@@ -36,7 +36,14 @@ func (l *NoteList) HandleInput(event *tcell.EventKey) *tcell.EventKey {
 	// if event.Key() == tcell.
 	key := event.Key()
 	switch key {
-	// case tcell.KeyEnter:
+	case tcell.KeyEnter:
+		viewWidget, ok := l.ui.Widgets["view"]
+		if !ok {
+			panic(errors.New("View not found"))
+		}
+		view := viewWidget.View()
+		// l.ui.app.SetRoot(view, true)
+		l.ui.app.SetFocus(view)
 
 	case tcell.KeyRune:
 		switch event.Rune() {
@@ -71,6 +78,7 @@ func (l *NoteList) HandleInput(event *tcell.EventKey) *tcell.EventKey {
 	}
 	text := fmt.Sprintf("%s\n\n%s", note.Name, note.Content)
 	w.Clear().SetText(text)
+
 	return nil
 }
 
