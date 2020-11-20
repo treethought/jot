@@ -8,7 +8,7 @@ import (
 
 type UI struct {
 	app     *tview.Application
-	Widgets map[string]WidgetRenderer
+	Widgets []WidgetRenderer
 	jot     *app.App
 	state   *State
 }
@@ -20,7 +20,7 @@ func NewUI() (ui *UI, err error) {
 	ui.app = tview.NewApplication()
 	ui.jot = app.NewApp()
 
-	ui.Widgets = make(map[string]WidgetRenderer)
+	ui.Widgets = []WidgetRenderer{}
 	return
 
 }
@@ -45,6 +45,15 @@ func (ui *UI) Start() {
 
 }
 
+func (ui *UI) getWidget(name string) (w WidgetRenderer, ok bool) {
+	for _, w := range ui.Widgets {
+		if w.Name() == name {
+			return w, true
+		}
+	}
+	return nil, false
+}
+
 func (ui *UI) initWidgets() error {
 	notes, err := ui.jot.ListNotes()
 	if err != nil {
@@ -52,10 +61,10 @@ func (ui *UI) initWidgets() error {
 	}
 
 	listing := NewNoteList(ui, notes)
-	ui.Widgets["note_list"] = listing
+	ui.Widgets = append(ui.Widgets, listing)
 
 	view := NewNoteView(ui)
-	ui.Widgets["view"] = view
+	ui.Widgets = append(ui.Widgets, view)
 	return nil
 
 }
@@ -78,6 +87,24 @@ func (ui *UI) initGrid() error {
 	for _, w := range ui.Widgets {
 		w.Render(grid)
 	}
+
+	grid.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		key := event.Key()
+		switch key {
+		case tcell.KeyTab:
+			if ui.state.currentIdx == len(ui.Widgets)-1 {
+				ui.state.currentIdx = -1
+			}
+			ui.state.currentIdx += 1
+			widget := ui.Widgets[ui.state.currentIdx]
+
+			ui.app.SetFocus(widget.View())
+			return nil
+
+		}
+		return event
+
+	})
 
 	return nil
 

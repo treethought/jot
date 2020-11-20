@@ -7,6 +7,7 @@ import (
 type State struct {
 	currentWidget WidgetRenderer
 	currentNote   *app.Note
+	currentIdx    int
 }
 
 func NewState() *State {

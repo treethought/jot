@@ -18,7 +18,7 @@ type NoteList struct {
 
 func NewNoteList(ui *UI, notes []*app.Note) *NoteList {
 	w := &NoteList{
-		Widget: Widget{ui: ui},
+		Widget: Widget{ui: ui, name: "note_list"},
 		notes:  notes,
 	}
 
@@ -66,7 +66,7 @@ func (l *NoteList) HandleInput(event *tcell.EventKey) *tcell.EventKey {
 	idx := l.view.GetCurrentItem()
 	note := l.notes[idx]
 	l.ui.state.SetCurrentNote(note)
-	viewWidget, ok := l.ui.Widgets["view"]
+	viewWidget, ok := l.ui.getWidget("view")
 	if !ok {
 		panic(errors.New("View not found"))
 	}

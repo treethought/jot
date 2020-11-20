@@ -18,7 +18,7 @@ type NoteView struct {
 
 func NewNoteView(ui *UI) *NoteView {
 	w := &NoteView{
-		Widget: Widget{ui: ui},
+		Widget: Widget{ui: ui, name: "view"},
 	}
 
 	w.view = tview.NewTextView().SetScrollable(true)
