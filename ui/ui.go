@@ -47,6 +47,9 @@ func (ui *UI) Start() {
 }
 
 func (ui *UI) reload() error {
+	ui.Widgets = []WidgetRenderer{}
+	ui.initWidgets()
+
 	for _, w := range ui.Widgets {
 		err := w.Render(ui.grid)
 		if err != nil {
