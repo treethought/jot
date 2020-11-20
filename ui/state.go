@@ -20,10 +20,10 @@ func NewState() *State {
 	return state
 }
 
-func (s State) SetCurrentNote(note *app.Note) {
+func (s *State) SetCurrentNote(note *app.Note) {
 	s.currentNote = note
 }
 
-func (s State) CurrentNote() (note *app.Note) {
+func (s *State) CurrentNote() (note *app.Note) {
 	return s.currentNote
 }
