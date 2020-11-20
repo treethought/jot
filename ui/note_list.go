@@ -26,23 +26,25 @@ func NewNoteList(ui *UI, notes []*app.Note) *NoteList {
 
 	w.view.SetTitle("Notes").
 		SetInputCapture(w.HandleInput)
-	// .SetMouseCapture(w.H
 
 	return w
 }
 
+func (l *NoteList) selectItem() {
+
+	w, ok := l.ui.getWidget("view")
+	if !ok {
+		panic(errors.New("view is not registered"))
+	}
+	l.ui.app.SetFocus(w.View())
+
+}
+
 func (l *NoteList) HandleInput(event *tcell.EventKey) *tcell.EventKey {
-	// if event.Key() == tcell.
 	key := event.Key()
 	switch key {
 	case tcell.KeyEnter:
-		viewWidget, ok := l.ui.Widgets["view"]
-		if !ok {
-			panic(errors.New("View not found"))
-		}
-		view := viewWidget.View()
-		// l.ui.app.SetRoot(view, true)
-		l.ui.app.SetFocus(view)
+		l.selectItem()
 
 	case tcell.KeyRune:
 		switch event.Rune() {
@@ -66,6 +68,7 @@ func (l *NoteList) HandleInput(event *tcell.EventKey) *tcell.EventKey {
 	idx := l.view.GetCurrentItem()
 	note := l.notes[idx]
 	l.ui.state.SetCurrentNote(note)
+
 	viewWidget, ok := l.ui.getWidget("view")
 	if !ok {
 		panic(errors.New("View not found"))

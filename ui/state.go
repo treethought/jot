@@ -13,10 +13,7 @@ type State struct {
 func NewState() *State {
 	state := &State{
 		currentWidget: nil,
-		currentNote: &app.Note{
-			Content: "",
-			Name:    "Select a note",
-		},
+		currentNote:   &app.Note{},
 	}
 	return state
 }
@@ -26,5 +23,9 @@ func (s *State) SetCurrentNote(note *app.Note) {
 }
 
 func (s *State) CurrentNote() (note *app.Note) {
+	if s.currentNote == nil {
+		return &app.Note{}
+
+	}
 	return s.currentNote
 }

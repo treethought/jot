@@ -35,8 +35,12 @@ func NewNoteView(ui *UI) *NoteView {
 }
 
 func (w *NoteView) Render(grid *tview.Grid) (err error) {
-	w.view.Clear().SetText(w.note.Name)
 	grid.AddItem(w.view, 1, 1, 2, 2, 0, 0, false)
+
+	if w.note != nil {
+		w.view.Clear().SetText(w.note.Name)
+
+	}
 	return nil
 }
 

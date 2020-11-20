@@ -11,6 +11,7 @@ type UI struct {
 	Widgets []WidgetRenderer
 	jot     *app.App
 	state   *State
+	grid    *tview.Grid
 }
 
 func NewUI() (ui *UI, err error) {
@@ -43,6 +44,16 @@ func (ui *UI) Start() {
 	}
 	return
 
+}
+
+func (ui *UI) reload() error {
+	for _, w := range ui.Widgets {
+		err := w.Render(ui.grid)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (ui *UI) getWidget(name string) (w WidgetRenderer, ok bool) {
@@ -83,6 +94,7 @@ func (ui *UI) initGrid() error {
 		AddItem(newPrimitive("jot"), 0, 0, 1, 3, 0, 0, false)
 
 	grid.SetBackgroundColor(tcell.ColorDefault)
+	ui.grid = grid
 	ui.app.SetRoot(grid, true)
 	for _, w := range ui.Widgets {
 		w.Render(grid)
