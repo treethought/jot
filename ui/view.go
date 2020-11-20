@@ -44,6 +44,19 @@ func (w *NoteView) Render(grid *tview.Grid) (err error) {
 	return nil
 }
 
+func runCommand(done chan bool, name string, arg ...string) {
+	cmd := exec.Command(name, arg...)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+	if err != nil {
+		panic("error editing note")
+	}
+	done <- true
+
+}
+
 func (w *NoteView) HandleInput(event *tcell.EventKey) *tcell.EventKey {
 	key := event.Key()
 	switch key {
@@ -52,15 +65,18 @@ func (w *NoteView) HandleInput(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Rune() {
 		case 'e': // edit.
 			w.ui.app.Suspend(func() {
-				path := fmt.Sprintf("notetest/%s", w.ui.state.CurrentNote())
-				cmd := exec.Command("vim", path)
-				cmd.Stdin = os.Stdin
-				cmd.Stdout = os.Stdout
-				cmd.Stderr = os.Stderr
-				err := cmd.Run()
+				path := fmt.Sprintf("notetest/%s", w.ui.state.CurrentNote().ID)
+
+				done := make(chan bool)
+				go runCommand(done, "vim", path)
+				<-done
+
+				err := w.ui.reload()
 				if err != nil {
-					return
+					panic("failed to reload ui")
 				}
+				return
+
 			})
 		}
 
